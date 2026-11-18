@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    Username
+    <input id="user" type="text" />
+    Password
+    <input id="pass" type="password" />
+
+    <button type="button" onclick="loginUser()">Sign in</button>
+    <button type="button" onclick="document.location.href = 'register.html'">
+      Register
+    </button>
+
+    <script>
+      async function loginUser() {
+        const name = document.getElementById("user").value.trim();
+        const password = document.getElementById("pass").value;
+
+        try {
+          const response = await fetch("http://127.0.0.1:8000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, password }),
+          });
+          const result = await response.json();
+
+          if (result.status === "success") {
+            document.location.href = "pandi_main.html";
+          } else {
+            alert("Wrong username or password");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

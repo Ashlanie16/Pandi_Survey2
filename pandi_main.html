@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pandi Survey</title>
+		<link rel="stylesheet" href="styles.css">
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	</head>
+
+	<body>
+		Your name:
+		<input id='name' type='text'>
+		Your age:
+		<input id='age' type='number'>
+		Your gender:
+		<input id='gender' type='text'>
+		Your favorite program:
+		<input id='program' type='text'>
+		Your coding level:
+		<input id='coding_level' type='text'>
+		Your current year level:
+		<input id='year_level' type='text'>
+		Your least favorite course:
+		<input id='least_favorite_course' type='text'>
+		Your current academic year:
+		<input id='academic_year' type='text'>
+		Your TOTGA program:
+		<input id='totga_program' type='text'>
+		Your dream career:
+		<input id='career' type='text'>
+
+		<button type="button" onclick="clickButton(
+			document.getElementById('name').value,
+			document.getElementById('age').value,
+			document.getElementById('gender').value,
+			document.getElementById('program').value,
+			document.getElementById('coding_level').value,
+			document.getElementById('year_level').value,
+			document.getElementById('least_favorite_course').value,
+			document.getElementById('academic_year').value,
+			document.getElementById('totga_program').value,
+			document.getElementById('career').value
+		)">Submit</button>
+
+		<script>
+
+		const clickButton = (a,b,c,d,e,f,g,h,i,j) =>{
+
+			if ([a,b,c,d,e,f,g,h,i,j].some(v => v.trim() === '')) {
+				alert('Please fill in all fields');
+				return;
+			}
+
+			const postData = {
+				name:a,
+				age:parseInt(b),
+				gender:c,
+				favorite_program:d,
+				coding_level:e,
+				current_year_level:f,
+				least_favorite_course:g,
+				current_academic_year:h,
+				TOTGA_program:i,
+				dream_career:j
+			};
+
+			const data = {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(postData)
+			}
+
+			async function fetchData() {
+				try {
+					const response = await fetch('http://127.0.0.1:8000/pandi',data);
+					const body = await response.json();
+					console.log(body)
+					if (body.status == 'success') {
+						document.location.href = 'profile.html';
+					} else {
+						alert('Could not save your answers');
+					}
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			}
+
+			fetchData()
+
+		}
+
+		</script>
+	</body>
+</html>
